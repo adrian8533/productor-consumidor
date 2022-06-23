@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package sockets;
+import java.lang.Object;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -37,4 +38,73 @@ public class Servidor extends Conexion{ //Se hereda de conexión
             System.out.println(e.getMessage());
         }
     }
+
+public class Tabaco{  //PRIMER BANCO
+    private boolean vacio;
+    public Tabaco(){
+        boolean vacio;
+    }
+    public synchronized void Poner(int n) throws InterruptedException{
+        while(vacio == false){
+            wait(); // si está lleno no se puede poner
+        }
+        vacio = false; // si se vació vuelvo a llenar
+        notify();
+    }
+    public synchronized int Sacar() throws InterruptedException{
+        while(vacio == true){
+            wait(); //mientras no haya ingredientes espero
+        }
+        vacio = true; // después que saqué lo vuelvo a dejar vacio
+        notify();
+        return 0; // retorno 1 para que sepa que se agarró un tabaco
+    }
+ }
+
+public class Papel{  //SEGUNDO BANCO
+    private boolean vacio;
+    public Papel(){
+        boolean vacio;
+    }
+    public synchronized void Poner(int n) throws InterruptedException{
+        while(vacio == false){
+            wait(); // si está lleno no se puede poner
+        }
+        vacio = false; // si se vació vuelvo a llenar
+        notify();
+    }
+    public synchronized int Sacar() throws InterruptedException{
+        while(vacio == true){
+            wait(); //mientras no haya ingredientes espero
+        }
+        vacio = true; // después que saqué lo vuelvo a dejar vacio
+        notify();
+        return 1; // retorno 2 para que sepa que se agarró un papel
+    }
+ }
+
+public class Fosforos{  //TERCER BANCO
+    private boolean vacio;
+    public Fosforos(){
+        vacio = true;
+    }
+    public synchronized void Poner(int n) throws InterruptedException{
+        while(vacio == false){
+            wait(); // si está lleno no se puede poner
+        }
+        vacio = false; // si se vació puedo volver a llenar
+        notify();
+    }
+    public synchronized int Sacar() throws InterruptedException{
+        while(vacio == true){
+            wait(); //mientras no haya ingredientes espero
+        }
+        vacio = true; // después que saqué lo vuelvo a dejar vacio
+        notify();
+        return 2; // retorno 3 para que sepa que se agarró un fosforo
+    }
+ }
+
+
+
 }
