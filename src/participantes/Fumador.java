@@ -20,7 +20,7 @@ public class Fumador extends Thread{
             Servidor.Tabaco tabaco){
         this.fosforos = fosforos;
         this.papel = papel;
-        this.tabaco = tabaco;
+        this.tabaco = tabaco;//comentario para git
     }
     
     public void fumando(int tipo){ //acá se guardan las trazas según el fumador.
