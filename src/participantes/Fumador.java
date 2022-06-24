@@ -23,7 +23,7 @@ public class Fumador extends Thread{
         this.tabaco = tabaco;
     }
     
-    public void fumando(int tipo){ //acá se guardan las trazas según el fumador
+    public void fumando(int tipo){ //acá se guardan las trazas según el fumador.
         System.out.println("["+String.valueOf(tipo)+"]Armando cigarro..."); //esto se cambia por llenar el .txt
         System.out.println("["+String.valueOf(tipo)+"]Fumando...");
     }
