@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.locks.Condition;
 import sockets.Conexion;//importo los métodos de la clase conexión
 /**
  *
@@ -41,41 +42,38 @@ public class Servidor extends Conexion{ //Se hereda de conexión
 
 public class Tabaco{  //PRIMER BANCO
     private boolean vacio;
-    public Tabaco(){
-        boolean vacio;
-    }
-    public synchronized void Poner(int n) throws InterruptedException{
+    public synchronized void Poner() throws InterruptedException{
         while(vacio == false){
-            wait(); // si está lleno no se puede poner
+            wait(); //mientras no haya ingredientes para sacar voy a dormir
         }
         vacio = false; // si se vació vuelvo a llenar
-        notify();
+        notifyAll();
     }
     public synchronized int Sacar() throws InterruptedException{
         while(vacio == true){
-            wait(); //mientras no haya ingredientes espero
+            wait(); //mientras no haya ingredientes para sacar voy a dormir
         }
         vacio = true; // después que saqué lo vuelvo a dejar vacio
-        notify();
-        return 0; // retorno 1 para que sepa que se agarró un tabaco
+        notifyAll();
+        return 0; // retorno 0 para que sepa que se agarró un tabaco
     }
- }
+}
 
 public class Papel{  //SEGUNDO BANCO
     private boolean vacio;
     public Papel(){
         boolean vacio;
     }
-    public synchronized void Poner(int n) throws InterruptedException{
+    public synchronized void Poner() throws InterruptedException{
         while(vacio == false){
-            wait(); // si está lleno no se puede poner
+            wait(); //si está lleno no se puede poner y va a dormir
         }
         vacio = false; // si se vació vuelvo a llenar
         notify();
     }
     public synchronized int Sacar() throws InterruptedException{
         while(vacio == true){
-            wait(); //mientras no haya ingredientes espero
+            wait(); //mientras no haya ingredientes para sacar voy a dormir
         }
         vacio = true; // después que saqué lo vuelvo a dejar vacio
         notify();
@@ -88,16 +86,16 @@ public class Fosforos{  //TERCER BANCO
     public Fosforos(){
         vacio = true;
     }
-    public synchronized void Poner(int n) throws InterruptedException{
+    public synchronized void Poner() throws InterruptedException{
         while(vacio == false){
-            wait(); // si está lleno no se puede poner
+            wait(); //si está lleno no se puede poner y va a dormir
         }
         vacio = false; // si se vació puedo volver a llenar
         notify();
     }
     public synchronized int Sacar() throws InterruptedException{
         while(vacio == true){
-            wait(); //mientras no haya ingredientes espero
+            wait(); //mientras no haya ingredientes para sacar voy a dormir
         }
         vacio = true; // después que saqué lo vuelvo a dejar vacio
         notify();
